@@ -63,9 +63,7 @@ public class SwingDemoGUI extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        
-		// Sets the GUI style of the program; currently applying to buttons but not tabs (worked earlier)
-		
+
         tabbedPane.setBackground(Color.LIGHT_GRAY);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
