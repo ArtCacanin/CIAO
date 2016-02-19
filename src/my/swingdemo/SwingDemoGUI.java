@@ -5,13 +5,16 @@
  */
 package my.swingdemo;
 
-import javax.swing.JPanel;
-import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
-import javax.swing.JLabel;
 import javax.swing.UIManager;
-import javax.tools.JavaCompiler;
-import javax.tools.ToolProvider;
+/* In case we need it...
+
+  import javax.swing.JFrame;
+  import javax.swing.JPanel;
+  import javax.swing.JLabel;
+
+  
+ */
 import java.util.List;
 import java.util.ArrayList;
 import javax.swing.GroupLayout.Alignment;
@@ -22,13 +25,20 @@ import java.awt.Color;
 
 public class SwingDemoGUI extends javax.swing.JFrame {
 	
-    public SwingDemoGUI() {
-        initComponents();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public SwingDemoGUI() {
+		List<JTabbedPane> brad = new ArrayList<JTabbedPane>();
+		brad = initTabs();
+		System.out.println(brad.get(0).getTitleAt(0));
+		System.out.println(brad.get(0).getTitleAt(1));
+		
+        initComponents(brad);
     }
-
-    @SuppressWarnings("unchecked")
     
-    private void initComponents() {
+    private void initComponents(List<JTabbedPane> brad) {
 
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -98,14 +108,18 @@ public class SwingDemoGUI extends javax.swing.JFrame {
          * 
          * 			   Otherwise we'll need a different solution.
          */
-        String tab1 = "Assignments";
-        String tab2 = "Quizzes";
+
         
-        tabbedPane.addTab(tab1, new JTabbedPane());
-        tabbedPane.addTab(tab2, new JTabbedPane());
-
+        // Complicated: Takes List 'brad' instantiated in SwingDemoGUI (same method that calls this method)
+        // 				and feeds that List to a method below called initTabs, which returns that List to
+        //				SwingDemoGUI, eventually feeding into the initComponents method where it is used here
+        
+        tabbedPane.addTab(brad.get(0).getTitleAt(0), brad.get(0).getComponentAt(0));
+        tabbedPane.addTab(brad.get(0).getTitleAt(0), brad.get(0).getComponentAt(0));
+        
+        // Above calls destroy element as it is referenced; don't know why.
+        
         getContentPane().setLayout(layout);
-
         pack();
     }
 
@@ -124,14 +138,27 @@ public class SwingDemoGUI extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
+    
+    private static List<JTabbedPane> initTabs()
+    {
+    	List<JTabbedPane> tempBrad = new ArrayList<JTabbedPane>();
+    	JTabbedPane temp = new JTabbedPane();
+    	temp.addTab("abc", new JTabbedPane());
+    	temp.addTab("bla", new JTabbedPane());
+    	tempBrad.add(temp);
+    	
+    	return tempBrad;
+    }
 
 	public static void main(String args[]) {
 		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				new SwingDemoGUI().setVisible(true);
