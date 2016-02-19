@@ -15,7 +15,6 @@ import javax.swing.UIManager;
 
   
  */
-import java.util.List;
 import java.util.ArrayList;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
@@ -25,20 +24,13 @@ import java.awt.Color;
 
 public class SwingDemoGUI extends javax.swing.JFrame {
 	
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	
 	public SwingDemoGUI() {
-		List<JTabbedPane> brad = new ArrayList<JTabbedPane>();
-		brad = initTabs();
-		System.out.println(brad.get(0).getTitleAt(0));
-		System.out.println(brad.get(0).getTitleAt(1));
-		
-        initComponents(brad);
+        initComponents();
     }
-    
-    private void initComponents(List<JTabbedPane> brad) {
+
+    private void initComponents() {
 
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -70,7 +62,6 @@ public class SwingDemoGUI extends javax.swing.JFrame {
             }
         });
         
-        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
         tabbedPane.setBackground(Color.LIGHT_GRAY);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -100,27 +91,22 @@ public class SwingDemoGUI extends javax.swing.JFrame {
         			.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
         			.addGap(75))
         );
-        
-        
-        /* SARAH: The below four lines of code generate two tabs. This should be a loop-able operation,
-         * 		       assuming we can feed this initialization section info from our JSON objects
-         * 			   prior to it trying to initialize.
-         * 
-         * 			   Otherwise we'll need a different solution.
-         */
 
-        
-        // Complicated: Takes List 'brad' instantiated in SwingDemoGUI (same method that calls this method)
-        // 				and feeds that List to a method below called initTabs, which returns that List to
-        //				SwingDemoGUI, eventually feeding into the initComponents method where it is used here
-        
-        tabbedPane.addTab(brad.get(0).getTitleAt(0), brad.get(0).getComponentAt(0));
-        tabbedPane.addTab(brad.get(0).getTitleAt(0), brad.get(0).getComponentAt(0));
-        
-        // Above calls destroy element as it is referenced; don't know why.
-        
         getContentPane().setLayout(layout);
         pack();
+    }
+    
+    private static ArrayList<JTabbedPane> initTabs()
+    {
+    	ArrayList<JTabbedPane> tempTabList = new ArrayList<JTabbedPane>();
+    	JTabbedPane tempTab = new JTabbedPane();
+    	
+    	tempTab.addTab("abc", new JTabbedPane());
+    	tempTab.addTab("bla", new JTabbedPane());
+    	tempTab.addTab("har", new JTabbedPane());
+    	tempTabList.add(tempTab);
+		
+    	return tempTabList;
     }
 
     private void addTabClicked(java.awt.event.MouseEvent evt) {
@@ -138,27 +124,34 @@ public class SwingDemoGUI extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
-    
-    private static List<JTabbedPane> initTabs()
-    {
-    	List<JTabbedPane> tempBrad = new ArrayList<JTabbedPane>();
-    	JTabbedPane temp = new JTabbedPane();
-    	temp.addTab("abc", new JTabbedPane());
-    	temp.addTab("bla", new JTabbedPane());
-    	tempBrad.add(temp);
-    	
-    	return tempBrad;
-    }
 
 	public static void main(String args[]) {
 		
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		// Sets the GUI style of the program; currently applying to buttons but not tabs (worked earlier)
+		try {  
+	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		// This List will be used to store the Tab Panes we create for easy addition and removal of tabs
+		ArrayList<JTabbedPane> autoTabs = new ArrayList<JTabbedPane>();
+		autoTabs = initTabs();
+		
+		// autoTabs is a list of, essentially, tab objects. Each object is its own row of tabs, and each element
+		// of that object is an individual tab
+		//
+		// Hopefully we only need the two tab objects...
+		System.out.println(autoTabs.get(0).getTitleAt(0));
+		System.out.println(autoTabs.get(0).getTitleAt(1));
+		System.out.println(autoTabs.get(0).getTitleAt(2));
+		
+		// MUST use getTabComponentAt command, NOT getComponentAt command. Latter destroys tab on access
+        tabbedPane.add(autoTabs.get(0).getTitleAt(0), autoTabs.get(0).getTabComponentAt(0));
+        tabbedPane.add(autoTabs.get(0).getTitleAt(1), autoTabs.get(0).getTabComponentAt(1));
+        tabbedPane.add(autoTabs.get(0).getTitleAt(2), autoTabs.get(0).getTabComponentAt(2));
+        
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				new SwingDemoGUI().setVisible(true);
@@ -168,4 +161,5 @@ public class SwingDemoGUI extends javax.swing.JFrame {
 	
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private static JTabbedPane tabbedPane = new JTabbedPane();
 }
