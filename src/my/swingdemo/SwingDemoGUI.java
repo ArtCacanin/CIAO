@@ -7,15 +7,6 @@ package my.swingdemo;
 
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
-/* In case we need it...
-
-  import javax.swing.JFrame;
-  import javax.swing.JPanel;
-  import javax.swing.JLabel;
-
-  
- */
-import java.util.ArrayList;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -30,7 +21,7 @@ public class SwingDemoGUI extends javax.swing.JFrame {
 	public SwingDemoGUI() {
         initComponents();
     }
-
+	
     private void initComponents() 
 {
 
@@ -41,7 +32,8 @@ public class SwingDemoGUI extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(500, 500));
 
         jButton1.setText("Add Tab");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        /* // Event Handler Instantiations
+         * jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 addTabClicked(evt);
             }
@@ -51,19 +43,23 @@ public class SwingDemoGUI extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
+        */
 
         jButton2.setText("Add Course");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        /* // Event Handler Instantiations
+         * jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton2addTabClicked(evt);
             }
         });
+ 
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
-
+        */
+        
         tabbedPane.setBackground(Color.LIGHT_GRAY);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -72,16 +68,17 @@ public class SwingDemoGUI extends javax.swing.JFrame {
         		.addGroup(layout.createSequentialGroup()
         			.addGap(0)
         			.addGroup(layout.createParallelGroup(Alignment.LEADING)
-        				.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
+        				.addGroup(Alignment.CENTER, layout.createSequentialGroup()
+            				.addPreferredGap(ComponentPlacement.UNRELATED)
         					.addComponent(jButton1)
-        					.addPreferredGap(ComponentPlacement.UNRELATED)
         					.addComponent(jButton2)
-        					.addGap(111))
+        					.addGap(0))
         				.addGroup(layout.createSequentialGroup()
-        					.addGap(89)
-        					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)))
-        			.addGap(102))
-        );
+    				.addGroup(layout.createSequentialGroup()
+        					.addGap(10)
+        					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE))
+        			.addGap(10))
+        )));
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
@@ -89,15 +86,17 @@ public class SwingDemoGUI extends javax.swing.JFrame {
         			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
         				.addComponent(jButton1)
         				.addComponent(jButton2))
-        			.addGap(58)
-        			.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
-        			.addGap(75))
+        				.addGap(50)
+        			.addGroup(layout.createSequentialGroup()
+        				.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+        				.addGap(10))
         );
 
         getContentPane().setLayout(layout);
+        
         pack();
     }
-
+/*// Event Handler methods
     private void addTabClicked(java.awt.event.MouseEvent evt) 
 {
         // TODO add your handling code here:
@@ -117,32 +116,51 @@ public class SwingDemoGUI extends javax.swing.JFrame {
 {
         // TODO add your handling code here:
     }
-
+*/
+    
     private static void initTabs()
     {
-    	// This List will be used to store the Tab Panes we create for easy addition and removal of tabs
-    	ArrayList<JTabbedPane> autoTabs = new ArrayList<JTabbedPane>();
-    	JTabbedPane tempTab = new JTabbedPane();
-    	
-    	// Actual Tab GUI in variable form
+    	// 'tabbedPane' is the rendering variable; whatever it equals is what is rendered within the Tab UI
     	tabbedPane = new JTabbedPane();
     	
-		// autoTabs is a list of, essentially, tab objects. Each object is its own row of tabs, and each element
-		// of that object is an individual tab
-    	for (int i = 0; i < 3; i++)
+       	JTabbedPane userTabPane = new JTabbedPane();
+    	userTabPane.setTabPlacement(JTabbedPane.LEFT);
+    	
+    	
+    	// In the future, generating these arrays based on JSON parsing / menu items should be relatively simple
+    	// Also, well want to use ArrayLists for this; that or big fixed length arrays
+    	String[] courses = {"CS 3450","CS 3810","MGT 3700","yuck","ouch"};
+    	String[] info = {"Assignments","Quizzes","Announcements","yuck","ouch"};
+
+    	
+    	// Why createTab method: using a loop-generated tab pane and attempting to add it resulted in there only
+    	// ever being one element in userTabPane. This way, a new tab is created right then and there for addition
+    	for (int i = 0; i < courses.length; i++)
     	{
-    		System.out.println(UIManager.getLookAndFeel());
-    		
-    		tempTab.addTab("abc", new JTabbedPane());
-    		autoTabs.add(tempTab);
-    		
-    		// MUST use getTabComponentAt command, NOT getComponentAt command. Latter destroys tab on access
-            tabbedPane.add(autoTabs.get(0).getTitleAt(i), autoTabs.get(0).getTabComponentAt(i));
+    		userTabPane.add(courses[i], createTab(info));
+            tabbedPane = userTabPane;
     	}
     }
 
+    private static JTabbedPane createTab(String[] info)
+    {
+        // Could potentially be used in the future to add course info to tempTabPane immediately
+    	
+    	JTabbedPane tempTabPane1 = new JTabbedPane();
+    	
+    	for (int i = 0; i < info.length; i++)
+    	{
+        	tempTabPane1.addTab(info[i], new JTabbedPane());
+    	}
+    	
+    	return tempTabPane1;
+    }
+    
     private static void setLookFeel()
     {
+        // Workaround method for dealing with my process of dynamically updating UI elements; not using it resulted in
+        // tabs refusing to accept custom UI themes applied in any other way
+    	
 		try {  
 	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} 
