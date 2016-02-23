@@ -7,14 +7,17 @@ package my.swingdemo;
 
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
-import javax.swing.plaf.TabbedPaneUI;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.JList;
+import javax.swing.JScrollBar;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JButton;
 
 public class SwingDemoGUI extends javax.swing.JFrame {
 	
@@ -25,7 +28,7 @@ public class SwingDemoGUI extends javax.swing.JFrame {
     }
 	
     private void initComponents() 
-{
+    {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         tabbedPane = new javax.swing.JTabbedPane();
@@ -49,9 +52,9 @@ public class SwingDemoGUI extends javax.swing.JFrame {
         });
         
 
-        jButton2.setText("Add Course");
-        /* // Event Handler Instantiations
-         * jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        jButton2.setText("Remove Tab");
+        // Event Handler Instantiations
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton2addTabClicked(evt);
             }
@@ -62,21 +65,30 @@ public class SwingDemoGUI extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        */
+        
         
         tabbedPane.setBackground(new Color(192, 192, 192));
+        
+        btnAddCourse = new JButton("Add Course");
+        
+        btnRemoveCourse = new JButton("Remove Course");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
         			.addContainerGap()
-        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
+        			.addGroup(layout.createParallelGroup(Alignment.TRAILING)
         				.addGroup(layout.createSequentialGroup()
         					.addComponent(jButton1)
+        					.addPreferredGap(ComponentPlacement.RELATED)
         					.addComponent(jButton2)
-        					.addGap(0))
-        				.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnAddCourse)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(btnRemoveCourse)
+        					.addGap(201))
+        				.addGroup(layout.createSequentialGroup()
         					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
         					.addContainerGap())))
         );
@@ -86,7 +98,9 @@ public class SwingDemoGUI extends javax.swing.JFrame {
         			.addContainerGap()
         			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
         				.addComponent(jButton1)
-        				.addComponent(jButton2))
+        				.addComponent(jButton2)
+        				.addComponent(btnAddCourse)
+        				.addComponent(btnRemoveCourse))
         			.addGap(50)
         			.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         			.addGap(10))
@@ -101,20 +115,11 @@ public class SwingDemoGUI extends javax.swing.JFrame {
 // Event Handler methods
     private void addTabClicked(java.awt.event.MouseEvent evt) 
     {
-    	ArrayList<String> courses = new ArrayList<String>();
-    	ArrayList<String> info = new ArrayList<String>();
+    	// One-line handler because we may want other parts of the program to be able to add a tab
     	
-    	// These string arrays will be replaced by courses.add() on the JSON object
-    	String[] tempCourses = {"CS 3450","CS 3810","MGT 3700","yuck", "hullo"};
-    	String[] tempInfo = {"Assignments","Quizzes","Announcements","Buffets", "Wazzup"};
+    	//addOneTab((JTabbedPane) tabbedPane.getSelectedComponent(), "Jerry");
+    	addOneCourse("Ben");
     	
-    	courses = fillArray(tempCourses);
-    	info = fillArray(tempInfo);
-    	
-    	updateTabs(courses, info);
-    	
-    	tabbedPane.removeAll();
-    	updateTabs(courses, info);
     }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) 
@@ -122,37 +127,34 @@ public class SwingDemoGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }
     
-/*// Unused Event Handlers
     private void jButton2addTabClicked(java.awt.event.MouseEvent evt) 
     {
-        // TODO add your handling code here:
+    	// One-line handler because we may want other parts of the program to be able to remove a tab
+    	
+    	// removeOneTab((JTabbedPane) tabbedPane.getSelectedComponent());
+        tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
+    	
     }
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) 
-{
+    {
         // TODO add your handling code here:
     }
-*/
 
     // Wanted to get this code out of main()
     private static void initTabs()
     {
     	ArrayList<String> courses = new ArrayList<String>();
     	ArrayList<String> info = new ArrayList<String>();
+    	JTabbedPane tempTab;
     	
     	// These string arrays will be replaced by courses.add() on the JSON object
+    	// Or whatever Sarah wants to do
     	String[] tempCourses = {"CS 3450","CS 3810","MGT 3700"};
     	String[] tempInfo = {"Assignments","Quizzes","Announcements"};
     	
     	courses = fillArray(tempCourses);
     	info = fillArray(tempInfo);
-    	
-    	updateTabs(courses, info);
-    }
-    
-    private static void updateTabs(ArrayList<String> courses, ArrayList<String> info)
-    {
-    	JTabbedPane tempTab;
     	
     	// Inner tabs are created and stored in 'tempTab' then collectively added to the
     	// outer tab collection 'tabbedPane', repeat
@@ -163,6 +165,7 @@ public class SwingDemoGUI extends javax.swing.JFrame {
             for (int k = 0; k < info.size(); k++)
             {
             	tempTab.addTab(info.get(k), createPanel(info.get(k)));
+            	System.out.println(tempTab.getTitleAt(k));
             }
             
             tabbedPane.addTab(courses.get(j), tempTab);
@@ -182,38 +185,61 @@ public class SwingDemoGUI extends javax.swing.JFrame {
     	return tempArr;
     }
     
+    private static void addOneTab(JTabbedPane tempTab, String tempString)
+    {
+    	tempTab.add(tempString, createPanel(tempString));
+    }
+    
+    private static void removeOneTab(JTabbedPane tempTab)
+    {
+    	tempTab.remove(tempTab.getSelectedComponent());
+    }
+    
+    private static void addOneCourse(String course)
+    {
+    	JTabbedPane tempTab;
+    	String[] info = {"Assignments", "Quizzes", "Announcements"};
+        
+		tempTab = new JTabbedPane(JTabbedPane.TOP);
+		
+        for (int k = 0; k < info.length; k++)
+        {
+        	tempTab.addTab(info[k], createPanel(info[k]));
+        	System.out.println(tempTab.getTitleAt(k));
+        }
+        
+        tabbedPane.addTab(course, tempTab);
+    }
+    
+    private static void removeOneCourse()
+    {
+        tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
+    }
+    
     // Cleaner way of handling panel creation in other methods
     private static JPanel createPanel(String info)
     {
     	JPanel tempTabPanel = new JPanel();
+    	JList tempList = new JList();
+        JScrollBar tempScroll = new JScrollBar();
+        
        	tempTabPanel.add(info, new JPanel());
+        
+    	tempTabPanel.setLayout(new MigLayout("", "[grow][]", "[grow]"));
+    	tempTabPanel.add(tempList, "cell 0 0");
+        tempTabPanel.add(tempScroll, "cell 1 0,growy");
 
     	return tempTabPanel;
     }
-    
-/*// Because maybe I'll find a use for it
-    private static JComponent createLabel(String[] label)
-    {
-    	JComponent tempLabel = new JLabel();
-    	
-    	for (int i = 0; i < label.length - 2; i++)
-    	{
-        	tempLabel.add(label[i], new JLabel());
-    	}
-    	
-    	return tempLabel; 
-    }
-    */
     
     private static void setLookFeel()
     {
         // Workaround method for dealing with my process of dynamically updating UI elements; not using it resulted in
         // tabs refusing to accept custom UI themes applied in any other way
     	
-    	// May be unnecessary now...
-		try {  
+		try {
 	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} 
+		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -223,7 +249,7 @@ public class SwingDemoGUI extends javax.swing.JFrame {
 	{
 		setLookFeel();
 
-		java.awt.EventQueue.invokeLater(new Runnable() 
+		java.awt.EventQueue.invokeLater(new Runnable()
 		{
 			public void run() {
 				new SwingDemoGUI().setVisible(true);
@@ -234,4 +260,6 @@ public class SwingDemoGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private static JTabbedPane tabbedPane;
+    private JButton btnAddCourse;
+    private JButton btnRemoveCourse;
 }
