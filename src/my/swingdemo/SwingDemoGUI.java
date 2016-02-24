@@ -19,11 +19,13 @@ import javax.swing.JList;
 import javax.swing.JScrollBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class SwingDemoGUI extends javax.swing.JFrame {
-
+public class SwingDemoGUI extends javax.swing.JFrame 
+{
+	// No idea why Eclipse wanted this here
 	private static final long serialVersionUID = 1L;
 
-	public SwingDemoGUI() {
+	public SwingDemoGUI() 
+	{
         initComponents();
     }
 
@@ -105,8 +107,11 @@ public class SwingDemoGUI extends javax.swing.JFrame {
         	layout.createParallelGroup(Alignment.LEADING)
         		.addGroup(layout.createSequentialGroup()
         			.addContainerGap()
-        			.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+        			.addGroup(layout.createParallelGroup(Alignment.LEADING)
         				.addGroup(layout.createSequentialGroup()
+        					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE)
+        					.addContainerGap())
+        				.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
         					.addComponent(addTabButton)
         					.addPreferredGap(ComponentPlacement.RELATED)
         					.addComponent(removeTabButton)
@@ -114,10 +119,7 @@ public class SwingDemoGUI extends javax.swing.JFrame {
         					.addComponent(addCourseButton)
         					.addPreferredGap(ComponentPlacement.RELATED)
         					.addComponent(removeCourseButton)
-        					.addGap(201))
-        				.addGroup(layout.createSequentialGroup()
-        					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
-        					.addContainerGap())))
+        					.addGap(103))))
         );
         layout.setVerticalGroup(
         	layout.createParallelGroup(Alignment.LEADING)
@@ -154,20 +156,17 @@ public class SwingDemoGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }
     
+    // One-line handler because we may want other parts of the program to be able to remove a tab
 	private void removeTabButtonClicked(java.awt.event.MouseEvent evt)
     {
-    	// One-line handler because we may want other parts of the program to be able to remove a tab
-
     	removeOneTab((JTabbedPane) tabbedPane.getSelectedComponent());
-        //tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
-
     }
 
     private void removeTabButtonActionPerformed(java.awt.event.ActionEvent evt)
     {
         // TODO add your handling code here:
     }
-    
+
 	protected void addCourseButtonClicked(MouseEvent evt) 
 	{
 		// TODO Auto-generated method stub
@@ -186,8 +185,9 @@ public class SwingDemoGUI extends javax.swing.JFrame {
     	removeOneCourse();
 	}
     
+    
     protected void removeCourseButtonActionPerformed(ActionEvent evt) 
-{
+    {
 		// TODO Auto-generated method stub
 		
 	}
@@ -241,7 +241,6 @@ public class SwingDemoGUI extends javax.swing.JFrame {
      * later and they are much simpler to use than repeatedly messing with the GUI objects
      */
     
-    
 	// Takes the JTabbedPane object tempTab passed to it by the invoking method
 	// and adds a new panel to it, effectively creating a new nested tab.
     private static void addOneTab(JTabbedPane tempTab, String tempString)
@@ -253,7 +252,10 @@ public class SwingDemoGUI extends javax.swing.JFrame {
 	// currently selected panel
     private static void removeOneTab(JTabbedPane tempTab)
     {
-    	tempTab.remove(tempTab.getSelectedComponent());
+    	if (tempTab.getComponentCount() > 0)
+    	{
+        	tempTab.remove(tempTab.getSelectedComponent());	
+    	}
     }
 
     // Generates a new Course tab by initializing a JTabbedPane object
@@ -274,10 +276,14 @@ public class SwingDemoGUI extends javax.swing.JFrame {
 
         tabbedPane.addTab(course, tempTab);
     }
+    
 
     private static void removeOneCourse()
     {
-        tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
+    	if (tabbedPane.getComponentCount() > 0)
+    	{
+    		tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
+    	}
     }
 
     // Cleaner way of handling panel creation in other methods
@@ -295,6 +301,7 @@ public class SwingDemoGUI extends javax.swing.JFrame {
 
     	return tempTabPanel;
     }
+    
 
     private static void setLookFeel()
     {
@@ -309,6 +316,7 @@ public class SwingDemoGUI extends javax.swing.JFrame {
 				e.printStackTrace();
 			}
     }
+    
 
 	public static void main(String args[])
 	{
