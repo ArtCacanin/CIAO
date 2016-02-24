@@ -10,68 +10,95 @@ import javax.swing.UIManager;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JList;
 import javax.swing.JScrollBar;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JButton;
 
 public class SwingDemoGUI extends javax.swing.JFrame {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	public SwingDemoGUI() {
         initComponents();
     }
-	
-    private void initComponents() 
+
+    private void initComponents()
     {
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        addTabButton = new javax.swing.JButton();
+        removeTabButton = new javax.swing.JButton();
+        addCourseButton = new javax.swing.JButton();
+        removeCourseButton = new javax.swing.JButton();
+
         tabbedPane = new javax.swing.JTabbedPane();
         tabbedPane.setDoubleBuffered(true);
         tabbedPane.setTabPlacement(JTabbedPane.LEFT);
-        
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(500, 500));
 
-        jButton1.setText("Add Tab");
+        addTabButton.setText("Add Tab");
          // Event Handler Instantiations
-         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+         addTabButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addTabClicked(evt);
+                addTabButtonClicked(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        addTabButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                addTabButtonActionPerformed(evt);
             }
         });
-        
 
-        jButton2.setText("Remove Tab");
+
+        removeTabButton.setText("Remove Tab");
         // Event Handler Instantiations
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+        removeTabButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2addTabClicked(evt);
+                removeTabButtonClicked(evt);
             }
         });
- 
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+
+        removeTabButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                removeTabButtonActionPerformed(evt);
             }
         });
-        
-        
+
+        addCourseButton.setText("Add Course");
+        // Event Handler Instantiations
+        addCourseButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addCourseButtonClicked(evt);
+            }
+        });
+
+        addCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCourseButtonActionPerformed(evt);
+            }
+        });
+
+        removeCourseButton.setText("Remove Course");
+        // Event Handler Instantiations
+        removeCourseButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                removeCourseButtonClicked(evt);
+            }
+        });
+
+        removeCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeCourseButtonActionPerformed(evt);
+            }
+        });
+
+
         tabbedPane.setBackground(new Color(192, 192, 192));
-        
-        btnAddCourse = new JButton("Add Course");
-        
-        btnRemoveCourse = new JButton("Remove Course");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         layout.setHorizontalGroup(
@@ -80,13 +107,13 @@ public class SwingDemoGUI extends javax.swing.JFrame {
         			.addContainerGap()
         			.addGroup(layout.createParallelGroup(Alignment.TRAILING)
         				.addGroup(layout.createSequentialGroup()
-        					.addComponent(jButton1)
+        					.addComponent(addTabButton)
         					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(jButton2)
+        					.addComponent(removeTabButton)
         					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(btnAddCourse)
+        					.addComponent(addCourseButton)
         					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(btnRemoveCourse)
+        					.addComponent(removeCourseButton)
         					.addGap(201))
         				.addGroup(layout.createSequentialGroup()
         					.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
@@ -97,49 +124,73 @@ public class SwingDemoGUI extends javax.swing.JFrame {
         		.addGroup(layout.createSequentialGroup()
         			.addContainerGap()
         			.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(jButton1)
-        				.addComponent(jButton2)
-        				.addComponent(btnAddCourse)
-        				.addComponent(btnRemoveCourse))
+        				.addComponent(addTabButton)
+        				.addComponent(removeTabButton)
+        				.addComponent(addCourseButton)
+        				.addComponent(removeCourseButton))
         			.addGap(50)
         			.addComponent(tabbedPane, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         			.addGap(10))
         );
-        
+
         initTabs();
-        
+
         getContentPane().setLayout(layout);
-        
+
         pack();
     }
-// Event Handler methods
-    private void addTabClicked(java.awt.event.MouseEvent evt) 
+
+    private void addTabButtonClicked(java.awt.event.MouseEvent evt)
     {
     	// One-line handler because we may want other parts of the program to be able to add a tab
     	
-    	//addOneTab((JTabbedPane) tabbedPane.getSelectedComponent(), "Jerry");
-    	addOneCourse("Ben");
+    	addOneTab((JTabbedPane) tabbedPane.getSelectedComponent(), "Because");
+    	
     	
     }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) 
+    private void addTabButtonActionPerformed(java.awt.event.ActionEvent evt)
     {
         // TODO add your handling code here:
     }
     
-    private void jButton2addTabClicked(java.awt.event.MouseEvent evt) 
+	private void removeTabButtonClicked(java.awt.event.MouseEvent evt)
     {
     	// One-line handler because we may want other parts of the program to be able to remove a tab
-    	
-    	// removeOneTab((JTabbedPane) tabbedPane.getSelectedComponent());
-        tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
-    	
+
+    	removeOneTab((JTabbedPane) tabbedPane.getSelectedComponent());
+        //tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
+
     }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) 
+    private void removeTabButtonActionPerformed(java.awt.event.ActionEvent evt)
     {
         // TODO add your handling code here:
     }
+    
+	protected void addCourseButtonClicked(MouseEvent evt) 
+	{
+		// TODO Auto-generated method stub
+		
+		addOneCourse("Because");
+	}
+	
+	protected void addCourseButtonActionPerformed(ActionEvent evt) 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
+    protected void removeCourseButtonClicked(MouseEvent evt) 
+    {
+    	removeOneCourse();
+	}
+    
+    protected void removeCourseButtonActionPerformed(ActionEvent evt) 
+{
+		// TODO Auto-generated method stub
+		
+	}
 
     // Wanted to get this code out of main()
     private static void initTabs()
@@ -147,36 +198,36 @@ public class SwingDemoGUI extends javax.swing.JFrame {
     	ArrayList<String> courses = new ArrayList<String>();
     	ArrayList<String> info = new ArrayList<String>();
     	JTabbedPane tempTab;
-    	
+
     	// These string arrays will be replaced by courses.add() on the JSON object
     	// Or whatever Sarah wants to do
     	String[] tempCourses = {"CS 3450","CS 3810","MGT 3700"};
     	String[] tempInfo = {"Assignments","Quizzes","Announcements"};
-    	
+
     	courses = fillArray(tempCourses);
     	info = fillArray(tempInfo);
-    	
+
     	// Inner tabs are created and stored in 'tempTab' then collectively added to the
     	// outer tab collection 'tabbedPane', repeat
     	for (int j = 0; j < courses.size(); j++)
     	{
     		tempTab = new JTabbedPane(JTabbedPane.TOP);
-    		
+
             for (int k = 0; k < info.size(); k++)
             {
             	tempTab.addTab(info.get(k), createPanel(info.get(k)));
             	System.out.println(tempTab.getTitleAt(k));
             }
-            
+
             tabbedPane.addTab(courses.get(j), tempTab);
     	}
     }
-    
+
     //Obvious method is obvious
     private static ArrayList<String> fillArray(String[] temp)
     {
     	ArrayList<String> tempArr = new ArrayList<String>();
-    	
+
     	for (int i = 0; i < temp.length; i++)
     	{
     		tempArr.add(temp[i]);
@@ -184,68 +235,82 @@ public class SwingDemoGUI extends javax.swing.JFrame {
 
     	return tempArr;
     }
+
+    /*
+     * I separated the below one-liners out because we may want to use the functionality
+     * later and they are much simpler to use than repeatedly messing with the GUI objects
+     */
     
+    
+	// Takes the JTabbedPane object tempTab passed to it by the invoking method
+	// and adds a new panel to it, effectively creating a new nested tab.
     private static void addOneTab(JTabbedPane tempTab, String tempString)
     {
     	tempTab.add(tempString, createPanel(tempString));
     }
-    
+
+	// Is passed tempTab, a collection of JPanels, and removes the
+	// currently selected panel
     private static void removeOneTab(JTabbedPane tempTab)
     {
     	tempTab.remove(tempTab.getSelectedComponent());
     }
-    
+
+    // Generates a new Course tab by initializing a JTabbedPane object
+    // with a string of titles. The string can be substituted with a 
+    // list of appropriate sections based on JSON data
     private static void addOneCourse(String course)
     {
     	JTabbedPane tempTab;
     	String[] info = {"Assignments", "Quizzes", "Announcements"};
-        
-		tempTab = new JTabbedPane(JTabbedPane.TOP);
-		
+
+				tempTab = new JTabbedPane(JTabbedPane.TOP);
+
         for (int k = 0; k < info.length; k++)
         {
         	tempTab.addTab(info[k], createPanel(info[k]));
         	System.out.println(tempTab.getTitleAt(k));
         }
-        
+
         tabbedPane.addTab(course, tempTab);
     }
-    
+
     private static void removeOneCourse()
     {
         tabbedPane.removeTabAt(tabbedPane.getSelectedIndex());
     }
-    
+
     // Cleaner way of handling panel creation in other methods
     private static JPanel createPanel(String info)
     {
     	JPanel tempTabPanel = new JPanel();
     	JList tempList = new JList();
-        JScrollBar tempScroll = new JScrollBar();
-        
-       	tempTabPanel.add(info, new JPanel());
-        
+      JScrollBar tempScroll = new JScrollBar();
+
+      tempTabPanel.add(info, new JPanel());
+
     	tempTabPanel.setLayout(new MigLayout("", "[grow][]", "[grow]"));
     	tempTabPanel.add(tempList, "cell 0 0");
-        tempTabPanel.add(tempScroll, "cell 1 0,growy");
+      tempTabPanel.add(tempScroll, "cell 1 0,growy");
 
     	return tempTabPanel;
     }
-    
+
     private static void setLookFeel()
     {
         // Workaround method for dealing with my process of dynamically updating UI elements; not using it resulted in
         // tabs refusing to accept custom UI themes applied in any other way
-    	
-		try {
-	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+
+			try
+			{
+			      UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
     }
-    
-	public static void main(String args[]) 
+
+	public static void main(String args[])
 	{
 		setLookFeel();
 
@@ -256,10 +321,10 @@ public class SwingDemoGUI extends javax.swing.JFrame {
 			}
 		});
 	}
-	
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+
+    private javax.swing.JButton addTabButton;
+    private javax.swing.JButton removeTabButton;
+    private javax.swing.JButton addCourseButton;
+    private javax.swing.JButton removeCourseButton;
     private static JTabbedPane tabbedPane;
-    private JButton btnAddCourse;
-    private JButton btnRemoveCourse;
 }
