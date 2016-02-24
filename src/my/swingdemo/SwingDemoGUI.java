@@ -50,24 +50,12 @@ public class SwingDemoGUI extends javax.swing.JFrame
                 addTabButtonClicked(evt);
             }
         });
-        addTabButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addTabButtonActionPerformed(evt);
-            }
-        });
-
 
         removeTabButton.setText("Remove Tab");
         // Event Handler Instantiations
         removeTabButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 removeTabButtonClicked(evt);
-            }
-        });
-
-        removeTabButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeTabButtonActionPerformed(evt);
             }
         });
 
@@ -79,12 +67,6 @@ public class SwingDemoGUI extends javax.swing.JFrame
             }
         });
 
-        addCourseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addCourseButtonActionPerformed(evt);
-            }
-        });
-
         removeCourseButton.setText("Remove Course");
         // Event Handler Instantiations
         removeCourseButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -93,13 +75,32 @@ public class SwingDemoGUI extends javax.swing.JFrame
             }
         });
 
+        /*
+        addTabButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addTabButtonActionPerformed(evt);
+            }
+        });
+        
+        removeTabButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeTabButtonActionPerformed(evt);
+            }
+        });
+        
+        addCourseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCourseButtonActionPerformed(evt);
+            }
+        });
+        
         removeCourseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeCourseButtonActionPerformed(evt);
             }
         });
-
-
+		*/
+        
         tabbedPane.setBackground(new Color(192, 192, 192));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -146,14 +147,10 @@ public class SwingDemoGUI extends javax.swing.JFrame
     {
     	// One-line handler because we may want other parts of the program to be able to add a tab
     	
-    	addOneTab((JTabbedPane) tabbedPane.getSelectedComponent(), "Because");
-    	
-    	
-    }
-
-    private void addTabButtonActionPerformed(java.awt.event.ActionEvent evt)
-    {
-        // TODO add your handling code here:
+    	if (tabbedPane.getTabCount() > 0)
+    	{
+    		addOneTab((JTabbedPane) tabbedPane.getSelectedComponent(), "Because");
+    	}
     }
     
     // One-line handler because we may want other parts of the program to be able to remove a tab
@@ -162,36 +159,41 @@ public class SwingDemoGUI extends javax.swing.JFrame
     	removeOneTab((JTabbedPane) tabbedPane.getSelectedComponent());
     }
 
-    private void removeTabButtonActionPerformed(java.awt.event.ActionEvent evt)
-    {
-        // TODO add your handling code here:
-    }
-
 	protected void addCourseButtonClicked(MouseEvent evt) 
 	{
 		// TODO Auto-generated method stub
 		
 		addOneCourse("Because");
 	}
-	
+
+    protected void removeCourseButtonClicked(MouseEvent evt) 
+    {
+    	removeOneCourse();
+	}
+   /* Unused ActionPerformed handlers 
+    private void addTabButtonActionPerformed(java.awt.event.ActionEvent evt)
+    {
+        // TODO add your handling code here:
+    }
+    
+    private void removeTabButtonActionPerformed(java.awt.event.ActionEvent evt)
+    {
+        // TODO add your handling code here:
+    }
+    
 	protected void addCourseButtonActionPerformed(ActionEvent evt) 
 	{
 		// TODO Auto-generated method stub
 		
 	}
 	
-    protected void removeCourseButtonClicked(MouseEvent evt) 
-    {
-    	removeOneCourse();
-	}
-    
-    
     protected void removeCourseButtonActionPerformed(ActionEvent evt) 
     {
 		// TODO Auto-generated method stub
 		
 	}
-
+    */
+    
     // Wanted to get this code out of main()
     private static void initTabs()
     {
