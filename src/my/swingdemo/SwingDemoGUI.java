@@ -259,8 +259,8 @@ public class SwingDemoGUI extends javax.swing.JFrame
     }
 
     // Generates a new Course tab by initializing a JTabbedPane object
-    // with a string of titles. The string can be substituted with a 
-    // list of appropriate sections based on JSON data
+    // with a string of titles. The string can be substituted with 
+    // elements of a list of appropriate sections based on JSON data
     private static void addOneCourse(String course)
     {
     	JTabbedPane tempTab;
